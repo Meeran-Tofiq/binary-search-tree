@@ -1,6 +1,5 @@
 class Node
-    attr_reader :left, :right
-    attr_writer :left
+    attr_accessor :left, :right
     def initialize
         @left = nil
         @right = nil
