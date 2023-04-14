@@ -23,6 +23,10 @@ class Node
     def >=(other)
         self.data >= other.data
     end
+
+    def ==(other)
+        self.data == other.data
+    end
 end
 
 class Tree
@@ -44,6 +48,33 @@ class Tree
         current_root
     end
 
+    def insert(val)
+        new_node = Node.new(val)
+        temp = root
+
+        return if new_node==root
+
+        while true
+            if new_node > temp
+                if temp.right.nil?
+                    temp.right = new_node
+                    break
+                else
+                    temp = temp.right
+                end
+            elsif new_node < temp
+                if temp.left.nil?
+                    temp.left = new_node
+                    break
+                else
+                    temp = temp.left
+                end
+            else
+                return
+            end
+        end
+    end
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -54,7 +85,5 @@ end
 array = [0, 9, 8, 3, 4, 3, 2, 1, 5]
 
 tree = Tree.new(array)
-
-puts array.sort.uniq
 
 tree.pretty_print
