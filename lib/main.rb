@@ -24,3 +24,10 @@ class Node
         self.data >= other.data
     end
 end
+
+class Tree
+    attr_reader :root
+    def initialize(arr)
+        @root = build_tree(arr)
+    end
+end
