@@ -13,24 +13,24 @@ class Node
     end
 
     def <(other)
-        self.data < other.data
+        self.data < (other.is_a?(Node) ? other.data : other)
     end
 
     def >(other)
-        self.data > other.data
+        self.data > (other.is_a?(Node) ? other.data : other)
     end
 
     def <=(other)
-        self.data <= other.data
+        self.data <= (other.is_a?(Node) ? other.data : other)
     end
 
     def >=(other)
-        self.data >= other.data
+        self.data >= (other.is_a?(Node) ? other.data : other)
     end
 
     def ==(other)
         return false if other == nil
-        self.data == other.data
+        self.data == (other.is_a?(Node) ? other.data : other)
     end
 end
 
@@ -84,9 +84,9 @@ class Tree
         temp = root
         parent = nil
 
-        until temp.data == val
+        until temp == val
             parent = temp
-            temp = (temp.data > val ? temp.left : temp.right)
+            temp = (temp > val ? temp.left : temp.right)
             return if temp == nil
         end
 
