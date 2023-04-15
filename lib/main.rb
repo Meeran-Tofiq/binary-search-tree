@@ -32,6 +32,10 @@ class Node
         return false if other == nil
         self.data == (other.is_a?(Node) ? other.data : other)
     end
+
+    def to_s
+        "\nNode: \n\tdata = #{data}\n\tleft = #{left.data}\n\tright = #{right.data}"
+    end
 end
 
 class Tree
@@ -101,6 +105,18 @@ class Tree
         end
     end
 
+    def find(val, node = root)
+        return nil if node.nil?
+
+        if node == val
+            return node
+        elsif node < val
+            return find(val, node.right)
+        else
+            return find(val node.left)
+        end
+    end
+
     def replace_with_next_biggest(node)
         next_biggest = node.right
 
@@ -127,4 +143,5 @@ tree = Tree.new(array)
 
 tree.pretty_print
 tree.delete 6
+puts "The node of the value wanted is - #{tree.find(19)}"
 tree.pretty_print
