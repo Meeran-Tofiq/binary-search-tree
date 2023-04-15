@@ -2,10 +2,14 @@ class Node
     include Comparable
 
     attr_accessor :data, :left, :right
-    def initialize(data)
+    def initialize(data=nil)
         @data = data
         @left = nil
         @right = nil
+    end
+
+    def has_children?
+        !(left.nil? && right.nil?)
     end
 
     def <(other)
@@ -25,6 +29,7 @@ class Node
     end
 
     def ==(other)
+        return false if other == nil
         self.data == other.data
     end
 end
@@ -75,6 +80,26 @@ class Tree
         end
     end
 
+    def delete(val)
+        temp = root
+        parent = nil
+
+        until temp.data == val
+            parent = temp
+            temp = (temp.data > val ? temp.left : temp.right)
+            return if temp == nil
+        end
+
+        if temp.has_children?
+        else
+            if parent.left == temp
+                parent.left = nil
+            else
+                parent.right = nil
+            end
+        end
+    end
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -85,5 +110,7 @@ end
 array = [0, 9, 8, 3, 4, 3, 2, 1, 5]
 
 tree = Tree.new(array)
+
+tree.delete 4
 
 tree.pretty_print
