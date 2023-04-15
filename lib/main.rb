@@ -91,6 +91,7 @@ class Tree
         end
 
         if temp.has_children?
+            replace_with_next_biggest(temp)
         else
             if parent.left == temp
                 parent.left = nil
@@ -100,6 +101,19 @@ class Tree
         end
     end
 
+    def replace_with_next_biggest(node)
+        next_biggest = node.right
+
+        until next_biggest.left.nil?
+            next_biggest = next_biggest.left
+            puts next_biggest.data
+        end
+
+        data = next_biggest.data
+        delete(next_biggest.data)
+        node.data = data
+    end
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -107,10 +121,10 @@ class Tree
     end
 end
 
-array = [0, 9, 8, 3, 4, 3, 2, 1, 5]
+array = [0, 9, 8, 3, 4, 3, 2, 1, 5, 20, 14, 13, 6, 19]
 
 tree = Tree.new(array)
 
-tree.delete 4
-
+tree.pretty_print
+tree.delete 6
 tree.pretty_print
