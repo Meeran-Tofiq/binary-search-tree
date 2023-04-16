@@ -166,44 +166,44 @@ class Tree
     end 
 
     def preorder(node = root, arr = [])
-        arr << node.data
+        arr << node
         preorder(node.left, arr) unless node.left.nil?
         preorder(node.right, arr) unless node.right.nil?
         
         if block_given?
-            arr.each do |data|
-                yield data
+            arr.each do |node|
+                yield node
             end
         else
-            arr
+            arr.map(&:data)
         end
     end
 
     def inorder(node = root, arr = [])
         inorder(node.left, arr) unless node.left.nil?
-        arr << node.data
+        arr << node
         inorder(node.right, arr) unless node.right.nil?
         
         if block_given?
-            arr.each do |data|
-                yield data
+            arr.each do |node|
+                yield node
             end
         else
-            arr
+            arr.map(&:data)
         end
     end
 
     def postorder(node = root, arr = [])
         postorder(node.left, arr) unless node.left.nil?
         postorder(node.right, arr) unless node.right.nil?
-        arr << node.data
+        arr << node
         
         if block_given?
-            arr.each do |data|
-                yield data
+            arr.each do |node|
+                yield node
             end
         else
-            arr
+            arr.map(&:data)
         end
     end
 
@@ -228,7 +228,7 @@ class Tree
             end
         end
     end
-
+    
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -246,8 +246,9 @@ tree.pretty_print
 
 puts "\n\n\n"
 p tree.level_order
+tree.level_order 
 arr = []
-tree.postorder { |data| arr << data }
+tree.inorder { |node| puts node }
 p tree.postorder
 p arr
 
