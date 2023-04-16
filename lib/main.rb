@@ -165,6 +165,20 @@ class Tree
         end
     end 
 
+    def preorder(node = root, arr = [])
+        if block_given?
+            yield node.data
+            preorder(node.left) unless node.left.nil?
+            preorder(node.right) unless node.right.nil?
+        else
+            arr << node.data
+            preorder(node.left, arr) unless node.left.nil?
+            preorder(node.right, arr) unless node.right.nil?
+            arr
+        end
+    end
+            
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -183,3 +197,4 @@ tree.pretty_print
 
 puts "\n\n\n"
 p tree.level_order
+p tree.preorder
