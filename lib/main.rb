@@ -76,28 +76,13 @@ class Tree
         current_root
     end
 
-    def insert(val)
-        new_node = Node.new(val)
-        temp = root
-
-        while true
-            if new_node > temp
-                if temp.right.nil?
-                    temp.right = new_node
-                    break
-                else
-                    temp = temp.right
-                end
-            elsif new_node < temp
-                if temp.left.nil?
-                    temp.left = new_node
-                    break
-                else
-                    temp = temp.left
-                end
-            else
-                return
-            end
+    def insert(value, node = root)
+        return nil if value == node.data
+    
+        if value < node.data
+          node.left.nil? ? node.left = Node.new(value) : insert(value, node.left)
+        else
+          node.right.nil? ? node.right = Node.new(value) : insert(value, node.right)
         end
     end
 
