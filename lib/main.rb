@@ -178,11 +178,7 @@ class Tree
         if node == current_node
             return 0
         else
-            if node > current_node
-                return 1 + depth(node, current_node.right)
-            else 
-                return 1 + depth(node, current_node.left)
-            end
+            1 + (node > current_node ? depth(node, current_node.right) : depth(node, current_node.left))
         end
     end
     
