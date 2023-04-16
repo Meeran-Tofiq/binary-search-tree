@@ -145,11 +145,7 @@ class Tree
         preorder(node.left, arr) unless node.left.nil?
         preorder(node.right, arr) unless node.right.nil?
         
-        if block_given?
-            arr.each { |node| yield node }
-        else
-            arr.map(&:data)
-        end
+        block_given? ? res.each { |node| yield node } : res.map(&:data)
     end
 
     def inorder(node = root, arr = [])
@@ -157,11 +153,7 @@ class Tree
         arr << node
         inorder(node.right, arr) unless node.right.nil?
         
-        if block_given?
-            arr.each { |node| yield node }
-        else
-            arr.map(&:data)
-        end
+        block_given? ? res.each { |node| yield node } : res.map(&:data)
     end
 
     def postorder(node = root, arr = [])
@@ -169,11 +161,7 @@ class Tree
         postorder(node.right, arr) unless node.right.nil?
         arr << node
         
-        if block_given?
-            arr.each { |node| yield node }
-        else
-            arr.map(&:data)
-        end
+        block_given? ? res.each { |node| yield node } : res.map(&:data)
     end
 
     def height(node)
