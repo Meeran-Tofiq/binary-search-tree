@@ -80,8 +80,6 @@ class Tree
         new_node = Node.new(val)
         temp = root
 
-        return if new_node==root
-
         while true
             if new_node > temp
                 if temp.right.nil?
@@ -151,9 +149,11 @@ class Tree
 
     def level_order
         arr = [root]
+        res = []
 
         while true
             current_node = arr.shift
+            res << current_node
             arr << current_node.left unless current_node.left.nil?
             arr << current_node.right unless current_node.right.nil?
 
@@ -163,9 +163,9 @@ class Tree
         end
 
         if block_given?
-            arr.each { |node| yield node }
+            res.each { |node| yield node }
         else
-            arr.map(&:data)
+            res.map(&:data)
         end
     end 
 
