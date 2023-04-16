@@ -108,15 +108,9 @@ class Tree
     end
 
     def find(val, node = root)
-        return nil if node.nil?
+        return node if node == val || node.nil?
 
-        if node == val
-            return node
-        elsif node < val
-            return find(val, node.right)
-        else
-            return find(val, node.left)
-        end
+        node > val ? find(val, node.left) : find(val, node.right)
     end
 
     def replace_with_next_biggest(node)
