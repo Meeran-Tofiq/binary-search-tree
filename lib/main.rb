@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 class Node
     include Comparable
 
@@ -34,7 +36,10 @@ class Node
     end
 
     def to_s
-        "\nNode: \n\tdata = #{data}\n\tleft = #{left.data}\n\tright = #{right.data}"
+        str = "\nNode: \n\tdata = #{data}"
+        str.concat("\tleft = #{left.data}") unless left.nil?
+        str.concat("\tright = #{right.data}") unless right.nil?
+        str
     end
 end
 
@@ -130,6 +135,23 @@ class Tree
         node.data = data
     end
 
+    def level_order
+        if block_given?
+            arr = []
+            arr << root
+            while true
+                current_node = arr.shift
+                yield current_node
+                arr << current_node.left unless current_node.left.nil?
+                arr << current_node.right unless current_node.right.nil?
+
+                if arr.empty?
+                    break
+                end
+            end
+        end
+    end 
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -145,3 +167,6 @@ tree.pretty_print
 tree.delete 6
 puts "The node of the value wanted is - #{tree.find(19)}"
 tree.pretty_print
+
+puts "\n\n\n"
+tree.level_order { |node| puts node; binding.pry if node.data == 20 }
