@@ -136,9 +136,9 @@ class Tree
     end
 
     def level_order
+        arr = []
+
         if block_given?
-            arr = []
-            arr << root
             while true
                 current_node = arr.shift
                 yield current_node
@@ -147,6 +147,19 @@ class Tree
 
                 if arr.empty?
                     break
+                end
+            end
+        else
+            arr << root
+            data = []
+            while true
+                current_node = arr.shift
+                data << current_node.data
+                arr << current_node.left unless current_node.left.nil?
+                arr << current_node.right unless current_node.right.nil?
+
+                if arr.empty?
+                    return data
                 end
             end
         end
@@ -169,4 +182,4 @@ puts "The node of the value wanted is - #{tree.find(19)}"
 tree.pretty_print
 
 puts "\n\n\n"
-tree.level_order { |node| puts node; binding.pry if node.data == 20 }
+p tree.level_order
