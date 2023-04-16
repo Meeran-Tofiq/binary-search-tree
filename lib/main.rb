@@ -130,22 +130,14 @@ class Tree
         arr = [root]
         res = []
 
-        while true
+        until arr.empty?
             current_node = arr.shift
             res << current_node
             arr << current_node.left unless current_node.left.nil?
             arr << current_node.right unless current_node.right.nil?
-
-            if arr.empty?
-                break
-            end
         end
 
-        if block_given?
-            res.each { |node| yield node }
-        else
-            res.map(&:data)
-        end
+        block_given? ? res.each { |node| yield node } : res.map(&:data)
     end 
 
     def preorder(node = root, arr = [])
