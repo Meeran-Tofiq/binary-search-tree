@@ -243,6 +243,7 @@ class Tree
     end
     
     def balanced?(node = root)
+        
         if node.has_two_children?
             return balanced?(node.left) && balanced?(node.right) && ((height(node.left) - height(node.right)).abs() <= 1)
         elsif node.has_one_child?
@@ -251,6 +252,11 @@ class Tree
             return true
         end
     end
+
+    def rebalance
+        root = build_tree(inorder.sort.uniq)
+    end
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -276,3 +282,6 @@ tree.delete 4
 
 puts tree.balanced?
 
+tree.rebalance
+tree.pretty_print
+puts tree.balanced?
