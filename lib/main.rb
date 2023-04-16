@@ -16,7 +16,17 @@ class Node
     
     def has_one_child?
         left.nil? ^ right.nil?
-    end        
+    end  
+
+    def has_two_children
+        !left.nil? && !right.nil?
+    end
+    
+    def child
+        if has_one_child?
+            return (left.nil? ? right : left)
+        end
+    end
 
     def <(other)
         self.data < (other.is_a?(Node) ? other.data : other)
@@ -212,7 +222,7 @@ class Tree
 
     def height(node)
         if node.nil?
-            return 0
+            return 1
         else
             left_height = (node.left.nil? ? 0 : 1 + height(node.left))
             right_height = (node.right.nil? ? 0 : 1 + height(node.right))
@@ -251,3 +261,4 @@ puts "\n\n"
 
 data_find = tree.find(1)
 puts tree.height(data_find)
+
