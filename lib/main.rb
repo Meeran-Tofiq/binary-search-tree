@@ -18,7 +18,7 @@ class Node
         left.nil? ^ right.nil?
     end  
 
-    def has_two_children
+    def has_two_children?
         !left.nil? && !right.nil?
     end
     
@@ -242,6 +242,15 @@ class Tree
         end
     end
     
+    def balanced?(node = root)
+        if node.has_two_children?
+            return balanced?(node.left) && balanced?(node.right) && ((height(node.left) - height(node.right)).abs() <= 1)
+        elsif node.has_one_child?
+            return !node.child.has_children?
+        else
+            return true
+        end
+    end
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -259,6 +268,11 @@ tree.pretty_print
 
 puts "\n\n"
 
-data_find = tree.find(1)
-puts tree.height(data_find)
+puts tree.balanced?
+
+tree.delete 5
+tree.delete 3
+tree.delete 4
+
+puts tree.balanced?
 
