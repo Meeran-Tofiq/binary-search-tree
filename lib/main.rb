@@ -118,7 +118,7 @@ class Tree
         elsif node < val
             return find(val, node.right)
         else
-            return find(val node.left)
+            return find(val, node.left)
         end
     end
 
@@ -207,6 +207,16 @@ class Tree
         end
     end
 
+    def height(node)
+        if node.nil?
+            return 0
+        else
+            left_height = (node.left.nil? ? 0 : 1 + height(node.left))
+            right_height = (node.right.nil? ? 0 : 1 + height(node.right))
+            return left_height > right_height ? left_height : right_height
+        end
+    end
+
     def pretty_print(node = @root, prefix = '', is_left = true)
         pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -214,12 +224,11 @@ class Tree
     end
 end
 
-array = [0, 9, 8, 3, 4, 3, 2, 1, 5, 20, 14, 13, 6, 19]
+array = [0, 9, 8, 3, 4, 3, 2, 1, 5, 20, 14, 13, 6, 19, 7]
 
 tree = Tree.new(array)
 
 tree.pretty_print
-tree.delete 6
 puts "The node of the value wanted is - #{tree.find(19)}"
 tree.pretty_print
 
@@ -229,3 +238,6 @@ arr = []
 tree.postorder { |data| arr << data }
 p tree.postorder
 p arr
+
+data_find = tree.find(1)
+puts tree.height(data_find)
