@@ -152,29 +152,20 @@ class Tree
     def level_order
         arr = [root]
 
+        while true
+            current_node = arr.shift
+            arr << current_node.left unless current_node.left.nil?
+            arr << current_node.right unless current_node.right.nil?
+
+            if arr.empty?
+                break
+            end
+        end
+
         if block_given?
-            while true
-                current_node = arr.shift
-                yield current_node
-                arr << current_node.left unless current_node.left.nil?
-                arr << current_node.right unless current_node.right.nil?
-
-                if arr.empty?
-                    break
-                end
-            end
+            arr.each { |node| yield node }
         else
-            data = []
-            while true
-                current_node = arr.shift
-                data << current_node.data
-                arr << current_node.left unless current_node.left.nil?
-                arr << current_node.right unless current_node.right.nil?
-
-                if arr.empty?
-                    return data
-                end
-            end
+            arr.map(&:data)
         end
     end 
 
@@ -184,9 +175,7 @@ class Tree
         preorder(node.right, arr) unless node.right.nil?
         
         if block_given?
-            arr.each do |node|
-                yield node
-            end
+            arr.each { |node| yield node }
         else
             arr.map(&:data)
         end
@@ -198,9 +187,7 @@ class Tree
         inorder(node.right, arr) unless node.right.nil?
         
         if block_given?
-            arr.each do |node|
-                yield node
-            end
+            arr.each { |node| yield node }
         else
             arr.map(&:data)
         end
@@ -212,9 +199,7 @@ class Tree
         arr << node
         
         if block_given?
-            arr.each do |node|
-                yield node
-            end
+            arr.each { |node| yield node }
         else
             arr.map(&:data)
         end
@@ -253,8 +238,7 @@ class Tree
     end
 
     def rebalance
-        dataset = inorder.sort.uniq
-        @root = build_tree(dataset)
+        @root = build_tree(inorder)
     end
 
     def pretty_print(node = @root, prefix = '', is_left = true)
@@ -263,29 +247,3 @@ class Tree
         pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
     end
 end
-
-array = [0, 9, 8, 3, 4, 3, 2, 1, 5, 20, 14, 13, 6, 19, 7]
-
-tree = Tree.new(array)
-
-tree.pretty_print
-puts "The node of the value wanted is - #{tree.find(19)}"
-tree.pretty_print
-
-puts "\n\n"
-
-puts tree.balanced?
-
-tree.delete 5
-tree.delete 3
-tree.delete 4
-
-puts tree.balanced?
-
-tree.pretty_print
-tree2 = Tree.new(tree.inorder)
-tree2.pretty_print
-
-tree.rebalance
-tree.pretty_print
-puts tree.balanced?
