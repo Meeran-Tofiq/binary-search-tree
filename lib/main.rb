@@ -9,10 +9,14 @@ class Node
         @left = nil
         @right = nil
     end
-
+    
     def has_children?
         !(left.nil? && right.nil?)
     end
+    
+    def has_one_child?
+        left.nil? ^ right.nil?
+    end        
 
     def <(other)
         self.data < (other.is_a?(Node) ? other.data : other)
@@ -243,14 +247,7 @@ tree.pretty_print
 puts "The node of the value wanted is - #{tree.find(19)}"
 tree.pretty_print
 
-puts "\n\n\n"
-p tree.level_order
-tree.level_order { |node| puts node }
-tree.level_order 
-arr = []
-tree.inorder { |node| puts node }
-p tree.postorder
-p arr
+puts "\n\n"
 
 data_find = tree.find(1)
 puts tree.height(data_find)
