@@ -58,7 +58,7 @@ class Node
 end
 
 class Tree
-    attr_reader :root
+    attr_accessor :root
     def initialize(arr)
         @dataset = arr.sort.uniq
         @root = build_tree(@dataset)
@@ -243,7 +243,6 @@ class Tree
     end
     
     def balanced?(node = root)
-        
         if node.has_two_children?
             return balanced?(node.left) && balanced?(node.right) && ((height(node.left) - height(node.right)).abs() <= 1)
         elsif node.has_one_child?
@@ -254,7 +253,8 @@ class Tree
     end
 
     def rebalance
-        root = build_tree(inorder.sort.uniq)
+        dataset = inorder.sort.uniq
+        @root = build_tree(dataset)
     end
 
     def pretty_print(node = @root, prefix = '', is_left = true)
@@ -281,6 +281,10 @@ tree.delete 3
 tree.delete 4
 
 puts tree.balanced?
+
+tree.pretty_print
+tree2 = Tree.new(tree.inorder)
+tree2.pretty_print
 
 tree.rebalance
 tree.pretty_print
