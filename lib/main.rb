@@ -136,7 +136,7 @@ class Tree
     end
 
     def level_order
-        arr = []
+        arr = [root]
 
         if block_given?
             while true
@@ -150,7 +150,6 @@ class Tree
                 end
             end
         else
-            arr << root
             data = []
             while true
                 current_node = arr.shift
@@ -246,6 +245,7 @@ tree.pretty_print
 
 puts "\n\n\n"
 p tree.level_order
+tree.level_order { |node| puts node }
 tree.level_order 
 arr = []
 tree.inorder { |node| puts node }
